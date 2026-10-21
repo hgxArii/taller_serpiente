@@ -1,11 +1,19 @@
-// 1. Obtener el canvas y el contexto
+// 1. Obtener el canvas y su contexto
 const canvas = document.getElementById("canvasJuego");
 const ctx = canvas.getContext("2d");
 
 // 2. Tamaño de cada celda
 const TAMANIO_CELDA = 25;
 
-// 3. Dibujar el tablero al cargar
+// 3. Crear el arreglo de la serpiente
+const serpiente = [
+    { x: 9, y: 10 },
+    { x: 10, y: 10 },
+    { x: 11, y: 10 },
+    { x: 11, y: 11 }
+];
+
+// Dibujar el tablero al cargar la página
 dibujarTodo();
 
 // ==============================
@@ -21,24 +29,7 @@ function limpiarCanvas() {
 function dibujarTodo() {
     limpiarCanvas();
     dibujarTablero();
-
-    // PRUEBA 1: cuadrado en (5,5)
-    pintarParte(5, 5);
-
-    // PRUEBA 2: cuadrado en (10,2)
-    pintarParte(10, 2);
-
-    // PRUEBA 3: cuadrado pegado al borde inferior
-    pintarParte(5, 23);
-
-    // PRUEBA 4: cuadrado pegado al borde derecho
-    pintarParte(23, 2);
-
-    // PRUEBA 5: cuadrado pegado al borde izquierdo
-    pintarParte(0, 8);
-
-    // PRUEBA 6: cuadrado en una esquina diferente de (0,0)
-    pintarParte(23, 23);
+    pintarSerpiente();
 }
 
 // 6. Dibujar la cuadrícula
@@ -47,7 +38,11 @@ function dibujarTablero() {
     ctx.lineWidth = 1;
 
     // Líneas verticales
-    for (let x = 0; x <= canvas.width; x = x + TAMANIO_CELDA) {
+    for (
+        let x = 0;
+        x <= canvas.width;
+        x = x + TAMANIO_CELDA
+    ) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, canvas.height);
@@ -55,7 +50,11 @@ function dibujarTablero() {
     }
 
     // Líneas horizontales
-    for (let y = 0; y <= canvas.height; y = y + TAMANIO_CELDA) {
+    for (
+        let y = 0;
+        y <= canvas.height;
+        y = y + TAMANIO_CELDA
+    ) {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(canvas.width, y);
@@ -63,15 +62,13 @@ function dibujarTablero() {
     }
 }
 
-// 7. Pintar una parte en las coordenadas indicadas
-function pintarParte(lineaX, lineaY) {
-    // Convertir las coordenadas de la cuadrícula
-    // a posiciones reales dentro del canvas
+// 7. Pintar una parte de la serpiente
+function pintarParte(lineaX, lineaY, color) {
     let posicionX = lineaX * TAMANIO_CELDA;
     let posicionY = lineaY * TAMANIO_CELDA;
 
-    // Color de relleno
-    ctx.fillStyle = "#ff2bd6";
+    // Color del cuadrado
+    ctx.fillStyle = color;
 
     // Pintar el cuadrado
     ctx.fillRect(
@@ -81,15 +78,40 @@ function pintarParte(lineaX, lineaY) {
         TAMANIO_CELDA
     );
 
-    // Color del borde
-    ctx.strokeStyle = "#00f0ff";
-    ctx.lineWidth = 2;
+    // Borde del cuadrado
+    ctx.strokeStyle = "#080d1c";
+    ctx.lineWidth = 1;
 
-    // Dibujar el borde del cuadrado
     ctx.strokeRect(
         posicionX,
         posicionY,
         TAMANIO_CELDA,
         TAMANIO_CELDA
     );
+}
+
+// ==============================
+// FUNCIONES DE LA SERPIENTE
+// ==============================
+
+// 8. Recorrer y pintar la serpiente
+function pintarSerpiente() {
+    for (let indice = 0; indice < serpiente.length; indice++) {
+
+        // La última parte del arreglo será la cabeza
+        if (indice == serpiente.length - 1) {
+            pintarParte(
+                serpiente[indice].x,
+                serpiente[indice].y,
+                "#b6ff00"
+            );
+        } else {
+            // El resto del arreglo será el cuerpo
+            pintarParte(
+                serpiente[indice].x,
+                serpiente[indice].y,
+                "#ff2bd6"
+            );
+        }
+    }
 }
