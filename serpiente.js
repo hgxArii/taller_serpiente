@@ -14,7 +14,7 @@ const serpiente = [
 ];
 
 // Dibujar el tablero al cargar la página
-dibujarTodo();
+dibujarTodo(); 
 
 // ==============================
 // FUNCIONES DEL TABLERO
