@@ -61,7 +61,7 @@ h1 {
 
 .tarjeta-info {
     flex: 1;
-    min-width: 150px;
+    min-width: 130px;
     background: #0b0620;
     padding: 14px;
     border-radius: 8px;
@@ -209,6 +209,6 @@ canvas {
     }
 
     .tarjeta-info {
-        min-width: 120px;
+        min-width: 110px;
     }
 }
